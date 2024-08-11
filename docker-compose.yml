@@ -5,9 +5,11 @@ services:
     image: postgres:alpine
     environment:
       POSTGRES_PASSWORD: admin
+      TZ: UTC
     ports:
       - "5432:5432"
     volumes:
       - express-toy-db:/var/lib/postgresql/data
+      - ./postgres:/docker-entrypoint-initdb.d
 volumes:
   express-toy-db:
