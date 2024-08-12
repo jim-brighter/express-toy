@@ -6,7 +6,7 @@ RUN mkdir -p /app
 
 WORKDIR /app
 
+ENTRYPOINT [ "node", "/app/index.js" ]
+
 COPY ./dist /app
 COPY ./node_modules /app/node_modules
-
-ENTRYPOINT [ "node", "/app/index.js" ]
