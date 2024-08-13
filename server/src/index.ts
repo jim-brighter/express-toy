@@ -1,5 +1,6 @@
 import AppEnv from './enum/appEnv'
 import app from './app'
+import logger from './log/logger'
 
 const SHUTDOWN_SIGS = ['SIGINT', 'SIGTERM']
 
@@ -19,5 +20,5 @@ if (!Object.values<string>(AppEnv).includes(env)) {
  * Launch App
  */
 app.listen(port, () => {
-  console.log(`[${new Date().toISOString()}][server] ${env} server running at http://localhost:${port}`)
+  logger.info(`${env} server running at http://localhost:${port}`)
 })
