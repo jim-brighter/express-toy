@@ -5,7 +5,7 @@ import logger from './log/logger'
 const SHUTDOWN_SIGS = ['SIGINT', 'SIGTERM']
 
 SHUTDOWN_SIGS.forEach(sig => process.on(sig, () => {
-  console.log(sig)
+  logger.info(sig)
   process.exit(0)
 }))
 
