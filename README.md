@@ -6,9 +6,8 @@
       - test (lol)
       - scan?
       - docker build
-      - docker push
-      - webhook
-    - publish artifact to ECR
+      - docker push to ECR
+    - webhook
 1. Deployment
     - setup server with docker
     - pipeline step to pull image & restart container
