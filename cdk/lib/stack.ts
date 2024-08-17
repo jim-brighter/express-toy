@@ -72,11 +72,31 @@ export class Stack extends cdk.Stack {
           volume: BlockDeviceVolume.ebs(60)
         }
       ],
-      keyPair: KeyPair.fromKeyPairName(this, 'key-pair', 'jim-mbp-personal')
+      keyPair: KeyPair.fromKeyPairName(this, 'jenkins-key-pair', 'jim-mbp-personal')
+    })
+
+    const appServer = new Instance(this, 'express-toy', {
+      vpc,
+      securityGroup,
+      machineImage,
+      instanceName: 'express-toy',
+      instanceType: InstanceType.of(InstanceClass.T4G, InstanceSize.MEDIUM),
+      associatePublicIpAddress: true,
+      blockDevices: [
+        {
+          deviceName: '/dev/xvda',
+          volume: BlockDeviceVolume.ebs(20)
+        }
+      ],
+      keyPair: KeyPair.fromKeyPairName(this, 'app-key-pair', 'jim-mbp-personal')
     })
 
     const jenkinsIp = new CfnEIP(this, 'jenkins-ip', {
       instanceId: jenkins.instanceId
+    })
+
+    const appIp = new CfnEIP(this, 'app-ip', {
+      instanceId: appServer.instanceId
     })
   }
 }
