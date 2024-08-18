@@ -41,44 +41,28 @@ export class Stack extends cdk.Stack {
       userData
     })
 
-    const jenkins = new ec2.Instance(this, 'jenkins', {
-      vpc,
-      securityGroup,
-      machineImage,
-      instanceName: 'jenkins',
-      instanceType: ec2.InstanceType.of(ec2.InstanceClass.T4G, ec2.InstanceSize.LARGE),
-      associatePublicIpAddress: true,
-      blockDevices: [
-        {
-          deviceName: '/dev/xvda',
-          volume: ec2.BlockDeviceVolume.ebs(20)
-        }
-      ],
-      keyPair: ec2.KeyPair.fromKeyPairName(this, 'jenkins-key-pair', 'jim-mbp-personal')
-    })
+    const instanceNames = [ 'jenkins', 'express-toy' ]
 
-    const appServer = new ec2.Instance(this, 'express-toy', {
-      vpc,
-      securityGroup,
-      machineImage,
-      instanceName: 'express-toy',
-      instanceType: ec2.InstanceType.of(ec2.InstanceClass.T4G, ec2.InstanceSize.MEDIUM),
-      associatePublicIpAddress: true,
-      blockDevices: [
-        {
-          deviceName: '/dev/xvda',
-          volume: ec2.BlockDeviceVolume.ebs(10)
-        }
-      ],
-      keyPair: ec2.KeyPair.fromKeyPairName(this, 'app-key-pair', 'jim-mbp-personal')
-    })
+    instanceNames.forEach(n => {
+      const instance = new ec2.Instance(this, n, {
+        vpc,
+        securityGroup,
+        machineImage,
+        instanceName: n,
+        instanceType: ec2.InstanceType.of(ec2.InstanceClass.T4G, ec2.InstanceSize.LARGE),
+        associatePublicIpAddress: true,
+        blockDevices: [
+          {
+            deviceName: '/dev/xvda',
+            volume: ec2.BlockDeviceVolume.ebs(20)
+          }
+        ],
+        keyPair: ec2.KeyPair.fromKeyPairName(this, `${n}-key-pair`, 'jim-mbp-personal')
+      })
 
-    const jenkinsIp = new ec2.CfnEIP(this, 'jenkins-ip', {
-      instanceId: jenkins.instanceId
-    })
-
-    const appIp = new ec2.CfnEIP(this, 'app-ip', {
-      instanceId: appServer.instanceId
+      new ec2.CfnEIP(this, `${n}-ip`, {
+        instanceId: instance.instanceId
+      })
     })
   }
 }
