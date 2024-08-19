@@ -8,5 +8,4 @@ WORKDIR /app
 
 ENTRYPOINT [ "node", "/app/index.js" ]
 
-COPY ./node_modules /app/node_modules
-COPY ./dist /app
+COPY ./dist/index.js /app/index.js
