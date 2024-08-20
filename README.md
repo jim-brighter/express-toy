@@ -11,7 +11,7 @@
 1. Deployment
     - setup server with docker
     - pipeline step to pull image & restart container
-1. Logging
+1. Logging & Building
 1. Database
     - db on server
 1. To Do App
