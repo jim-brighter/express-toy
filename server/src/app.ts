@@ -2,12 +2,15 @@ import express, { Express } from 'express'
 import PinoHttp from 'pino-http'
 import logger from './log/logger'
 import hello from './controller/hello'
+import todoController from './controller/todoController'
 
 const app: Express = express()
 
 /**
- * Logger Setup
+ * Middleware Setup
  */
+app.use(express.json())
+
 app.use(PinoHttp({
   logger,
   customLogLevel: (req, res, err) => {
@@ -22,5 +25,6 @@ app.use(PinoHttp({
  * Routes Setup
  */
 app.use('/hello', hello)
+app.use('/items', todoController)
 
 export default app
