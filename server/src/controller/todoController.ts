@@ -14,6 +14,16 @@ router.get('/', async (req: Request, res: Response) => {
   }
 })
 
+router.get('/:id', async (req: Request, res: Response) => {
+  try {
+    res.status(200).send(await service.getTodoItem(req.params.id))
+  } catch(e) {
+    res.status(500).send({
+      error: 'Error retrieving item'
+    })
+  }
+})
+
 router.post('/', async (req: Request, res: Response) => {
   try {
     const body = req.body
@@ -60,4 +70,5 @@ router.delete('/:id', async (req: Request, res: Response) => {
     })
   }
 })
+
 export default router

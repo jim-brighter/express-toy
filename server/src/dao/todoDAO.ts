@@ -7,15 +7,23 @@ export default class TodoDAO {
   async getTodoItems(): Promise<TodoItem[]> {
     logger.info('Retrieving all items')
 
-    const result = await query('SELECT * FROM express_toy.todo;')
+    const result = await query('SELECT * FROM express_toy.todo')
 
     return result.rows.map(r => new TodoItem(r))
+  }
+
+  async getTodoItem(id: string): Promise<TodoItem> {
+    logger.info('Retrieving item with id %s', id)
+
+    const result = await query('SELECT * FROM express_toy.todo WHERE id = $1', [id])
+
+    return result.rows[0]
   }
 
   async insertItem(item: TodoItem): Promise<void> {
     logger.info('Inserting new item')
 
-    const result = await transaction('INSERT INTO express_toy.todo (text) values ($1);', [item.text])
+    const result = await transaction('INSERT INTO express_toy.todo (text) values ($1)', [item.text])
 
     if (result?.rowCount !== 1) {
       throw new Error('Did not insert record')

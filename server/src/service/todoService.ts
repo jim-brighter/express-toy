@@ -15,6 +15,15 @@ export default class TodoService {
     }
   }
 
+  async getTodoItem(id: string): Promise<TodoItem> {
+    try {
+      return await this.dao.getTodoItem(id)
+    } catch(e) {
+      logger.error(e, 'Error retrieving item %s', id)
+      throw e
+    }
+  }
+
   async insertTodoItem(text: string): Promise<void> {
     try {
       const item = new TodoItem({ text })
