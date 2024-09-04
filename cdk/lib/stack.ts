@@ -48,7 +48,9 @@ export class Stack extends cdk.Stack {
       'groupadd docker',
       'gpasswd -a ec2-user docker',
       'systemctl enable docker',
-      'systemctl start docker'
+      'systemctl start docker',
+      'curl -SL https://github.com/docker/compose/releases/download/v2.29.2/docker-compose-linux-aarch64 -o /usr/local/lib/docker/cli-plugins/docker-compose',
+      'chmod +x /usr/local/lib/docker/cli-plugins/docker-compose'
     );
 
     const machineImage = new ec2.AmazonLinuxImage({
