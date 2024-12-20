@@ -1,8 +1,8 @@
 import express, { Express } from 'express'
 import PinoHttp from 'pino-http'
 import logger from './log/logger'
-import hello from './controller/hello'
 import todoController from './controller/todoController'
+import health from './controller/health'
 
 const app: Express = express()
 
@@ -24,7 +24,7 @@ app.use(PinoHttp({
 /**
  * Routes Setup
  */
-app.use('/hello', hello)
 app.use('/items', todoController)
+app.use('/health', health)
 
 export default app

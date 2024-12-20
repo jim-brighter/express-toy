@@ -9,6 +9,10 @@ const pool = new pg.Pool({
   database: process.env.DB_DATABASE || 'postgres'
 })
 
+export const health = async () => {
+  return await pool.query('SELECT 1')
+}
+
 export const query = async (query: string, params?: string[]) => {
   return await pool.query(query, params)
 }

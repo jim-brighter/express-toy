@@ -1,0 +1,7 @@
+const HEALTHY = 'HEALTHY';
+const UNHEALTHY = 'UNHEALTHY';
+
+export {
+  HEALTHY,
+  UNHEALTHY
+}
