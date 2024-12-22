@@ -13,3 +13,21 @@ export const isDBHealthy = async (dependencies: any): Promise<boolean> => {
     return false
   }
 }
+
+const checkAllDependencies = async (): Promise<any> => {
+  const response: any = {
+    dependencies: {}
+  }
+
+  const downDependencies = (await Promise.all([
+    isDBHealthy(response.dependencies)
+  ])).filter(up => !up)
+
+  response.app = downDependencies.length > 0 ? UNHEALTHY : HEALTHY
+
+  return response
+}
+
+export default {
+  checkAllDependencies
+}
