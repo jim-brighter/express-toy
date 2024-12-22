@@ -1,8 +1,9 @@
 import { health } from '../db/db'
 import { HEALTHY, UNHEALTHY } from '../constants/constants'
 import logger from '../log/logger'
+import HealthResponse, { Dependencies } from '../model/healthResponse'
 
-export const isDBHealthy = async (dependencies: any): Promise<boolean> => {
+export const isDBHealthy = async (dependencies: Dependencies): Promise<boolean> => {
   try {
     await health()
     dependencies.database = HEALTHY
@@ -14,10 +15,8 @@ export const isDBHealthy = async (dependencies: any): Promise<boolean> => {
   }
 }
 
-const checkAllDependencies = async (): Promise<any> => {
-  const response: any = {
-    dependencies: {}
-  }
+const checkAllDependencies = async (): Promise<HealthResponse> => {
+  const response: HealthResponse = new HealthResponse()
 
   const downDependencies = (await Promise.all([
     isDBHealthy(response.dependencies)
