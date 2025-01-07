@@ -6,11 +6,9 @@ const router = express.Router()
 
 router.get('/', async (req: Request, res: Response) => {
   const healthStatus = await healthCheckService.checkAllDependencies()
-  if (healthStatus.app === HEALTHY) {
-    res.status(200).send(healthStatus)
-  } else {
-    res.status(503).send(healthStatus)
-  }
+  const statusCode = healthStatus.app === HEALTHY ? 200 : 503
+
+  res.status(statusCode).send(healthStatus)
 })
 
 export default router
